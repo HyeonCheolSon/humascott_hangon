@@ -10,7 +10,7 @@ output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 img = cv2.imread("sample1.jpg")
-img = cv2.resize(img, dsize=(416, 416), interpolation=cv2.INTER_AREA)
+img = cv2.resize(img, dsize=(640, 480), interpolation=cv2.INTER_AREA)
 height, width, channels = img.shape
 
 blob = cv2.dnn.blobFromImage(img, 1/255, (416, 416), (0, 0, 0), False, crop=False)
@@ -48,6 +48,10 @@ for i in range(len(boxes)):
         color = colors[i]
         cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
         cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
+        w_file = open("center.txt", 'w')
+        writeline = str(x+w/2) + " " + str(y+h/2)
+        w_file.write(writeline)
+        w_file.close()
 cv2.imshow("Image", img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
